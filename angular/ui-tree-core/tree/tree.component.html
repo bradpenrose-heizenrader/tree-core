@@ -1,0 +1,22 @@
+<ng-template #defaultLoadingTemplate>
+  <div>loading...</div>
+</ng-template>
+
+<ng-container
+  *ngIf="isLoading"
+  [ngTemplateOutlet]="
+    treeLoadingTemplate ? treeLoadingTemplate : defaultLoadingTemplate
+  "
+>
+</ng-container>
+
+<div *ngFor="let rootID of rootIDs">
+  <ui-node-core
+    [nodes]="nodes"
+    [nodeID]="rootID"
+    [nodeTemplate]="nodeTemplate"
+    [nodeLoadingTemplate]="
+      nodeLoadingTemplate ? nodeLoadingTemplate : defaultLoadingTemplate
+    "
+  ></ui-node-core>
+</div>
