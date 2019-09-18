@@ -1,0 +1,55 @@
+<style>
+  .rotate {
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+  }
+</style>
+
+<div class="tree-node-container">
+  <!-- default node display -->
+  <ng-container *ngIf="!nodeTemplate">
+    <div class="tree-node-content">
+      <div
+        class="tree-node-icon"
+        style="display: inline-block; text-align: center; width: 20px;"
+        (click)="nodes[nodeID].toggleExpanded()"
+      >
+        <span *ngIf="nodes[nodeID].hasChildren">
+          <span *ngIf="nodes[nodeID].isExpanded">&#8722;</span>
+          <span *ngIf="!nodes[nodeID].isExpanded">&#43;</span>
+        </span>
+        <span *ngIf="!nodes[nodeID].hasChildren">&#8729;</span>
+      </div>
+      <span (click)="nodes[nodeID].select()">{{ nodes[nodeID].name }}</span>
+    </div>
+  </ng-container>
+
+  <!-- custom node display -->
+  <ng-container
+    *ngIf="nodeTemplate"
+    [ngTemplateOutlet]="nodeTemplate"
+    [ngTemplateOutletContext]="{ node: nodes[nodeID] }"
+  ></ng-container>
+
+  <ng-container
+    [ngTemplateOutlet]="nodes[nodeID].isLoading && nodeLoadingTemplate"
+  ></ng-container>
+
+  <div
+    class="tree-node-children"
+    style="padding-left: 20px;"
+    *ngIf="nodes[nodeID].isExpanded"
+  >
+    <div *ngFor="let nodeID of nodes[nodeID].childIDs">
+      <ui-node-core
+        [nodes]="nodes"
+        [nodeID]="nodeID"
+        [nodeTemplate]="nodeTemplate"
+        [nodeLoadingTemplate]="nodeLoadingTemplate"
+      ></ui-node-core>
+    </div>
+  </div>
+</div>

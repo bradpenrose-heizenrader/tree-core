@@ -1,0 +1,23 @@
+<ng-template #nodeTemplate let-node="node">
+  <div>
+    <span (click)="node.select()">{{ node.name }}</span>
+  </div>
+</ng-template>
+
+<ng-template #treeLoadingTemplate>
+  <span>custom tree loading....</span>
+</ng-template>
+
+<ng-template #nodeLoadingTemplate>
+  <span>custom node loading....</span>
+</ng-template>
+
+<ui-tree-core
+  #appTree
+  [isLoading]="isLoading"
+  [data]="data$ | async"
+  (selected)="selected($event)"
+  [nodeTemplate]="nodeTemplate"
+  [treeLoadingTemplate]="treeLoadingTemplate"
+  [nodeLoadingTemplate]="nodeLoadingTemplate"
+></ui-tree-core>
